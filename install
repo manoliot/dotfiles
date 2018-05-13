@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export DOT_DIR=$PWD
+~/.cargo/bin/dot link

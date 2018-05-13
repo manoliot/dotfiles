@@ -1,0 +1,19 @@
+snippet temp "deftemplate"
+(deftemplate ${1:Template}
+	(field ${2:Field})
+)
+endsnippet
+
+snippet rule "defrule"
+(defrule ${1:Rule}
+	(${2:Condition})
+	=>
+	(${3:Action})
+)
+endsnippet
+
+snippet fact "deffacts"
+(deffacts ${1:Description}
+	(${2:Fact})
+)
+endsnippet

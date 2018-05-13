@@ -1,0 +1,9 @@
+# $DOT_DIR/.mappings
+
+[general]
+"git/gitconfig" = "~/.gitconfig"
+"zsh/zshrc" = "~/.zshrc"
+"termite/config" = "~/.config/termite/config"
+"tmux/tmux.conf" = "~/.tmux.conf"
+"nvim/init.vim" = "~/.config/nvim/init.vim"
+"nvim/UltiSnips" = "~/.config/nvim/UltiSnips"
