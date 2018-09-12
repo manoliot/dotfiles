@@ -25,6 +25,9 @@ alias grep='grep --color=auto'
 alias rgrep='rgrep --color=auto'
 alias my-youtube-dl='youtube-dl --write-info-json --write-description --write-annotations --download-archive archive.txt -o "%(uploader)s/%(upload_date)s - %(title)s [%(id)s].%(ext)s"'
 
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 

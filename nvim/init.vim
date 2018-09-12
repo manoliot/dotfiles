@@ -31,6 +31,7 @@ Plug 'junegunn/fzf.vim'
 
 " Language support"
 Plug 'lervag/vimtex'
+Plug 'rust-lang/rust.vim'
 
 " Snippets "
 Plug 'SirVer/ultisnips'
@@ -123,6 +124,13 @@ let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 autocmd FileType rust compiler cargo
 autocmd FileType rust let b:dispatch = 'cargo run'
 
+" Python
+let g:python_host_prog = glob('~/.local/share/virtualenvs/neovim2*/bin/python')
+let g:python3_host_prog = glob('~/.local/share/virtualenvs/neovim3*/bin/python')
+
+" Rust
+let g:rustfmt_autosave = 1
+
 " Ale "
 let g:ale_linters = {
 \	'cpp': ['clang', 'gcc'],
@@ -147,7 +155,7 @@ let g:deoplete#sources#clang#clang_header = "/usr/lib/clang"
 let g:deoplete#sources#clang#flags = ['-Iinclude']
 
 let g:deoplete#sources#rust#racer_binary='/home/mono/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/home/mono/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
+let g:deoplete#sources#rust#rust_source_path='/home/mono/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
 
 " Allow local customizations in ~/.config/nvim/local.vim
 let $LOCALFILE=expand("~/.config/nvim/local.vim")
