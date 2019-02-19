@@ -7,5 +7,4 @@
 "tmux/tmux.conf" = "~/.tmux.conf"
 "nvim/init.vim" = "~/.config/nvim/init.vim"
 "nvim/UltiSnips" = "~/.config/nvim/UltiSnips"
-"nvim/neovim2" = "~/.config/nvim/neovim2"
-"nvim/neovim3" = "~/.config/nvim/neovim3"
+"nvim/coc-settings.json" = "~/.config/nvim/coc-settings.json"

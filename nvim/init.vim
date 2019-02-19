@@ -32,6 +32,7 @@ Plug 'junegunn/fzf.vim'
 " Language support"
 Plug 'lervag/vimtex'
 Plug 'rust-lang/rust.vim'
+Plug 'posva/vim-vue'
 
 " Snippets "
 Plug 'SirVer/ultisnips'
@@ -41,10 +42,7 @@ Plug 'honza/vim-snippets'
 Plug 'w0rp/ale'
 
 " Autocomplete "
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-clang'
-Plug 'zchee/deoplete-jedi'
-Plug 'sebastianmarkow/deoplete-rust'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 " Goyo "
 Plug 'junegunn/goyo.vim'
@@ -64,9 +62,13 @@ autocmd Filetype rust setlocal ts=4 sts=4 sw=4 expandtab
 autocmd Filetype r setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype rmd setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype tex setlocal ts=4 sts=4 sw=4 expandtab
+autocmd Filetype tex setlocal spelllang=es_es spell
 autocmd Filetype yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype html setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype tex setlocal spelllang=es_es spell
+autocmd Filetype css setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype typescript setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype vue setlocal ts=2 sts=2 sw=2 expandtab
 
 " Line numbering "
 set number
@@ -124,38 +126,41 @@ let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 autocmd FileType rust compiler cargo
 autocmd FileType rust let b:dispatch = 'cargo run'
 
-" Python
-let g:python_host_prog = glob('~/.local/share/virtualenvs/neovim2*/bin/python')
-let g:python3_host_prog = glob('~/.local/share/virtualenvs/neovim3*/bin/python')
-
-" Rust
+" Rust "
 let g:rustfmt_autosave = 1
 
 " Ale "
 let g:ale_linters = {
 \	'cpp': ['clang', 'gcc'],
 \	'python': ['flake8'],
-\	'rust': ['cargo'],
+\	'rust': ['rls'],
+\	'javascript': ['eslint'],
+\	'typescript': ['tsserver'],
+\	'vue': ['eslint'],
 \}
+
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\	'rust': ['rustfmt'],
+\	'javascript': ['eslint'],
+\	'vue': ['eslint'],
+\}
+
 
 let g:ale_cpp_clang_options = '-std=c++11 -Wall -Iinclude'
 let g:ale_cpp_gcc_options = '-std=c++11 -Wall -Iinclude'
+let g:ale_python_flake8_auto_pipenv = 1
+let g:ale_rust_rls_toolchain = 'stable'
 
-" Deoplete "
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#disable_auto_complete = 1
-inoremap <expr><C-Space> deoplete#mappings#manual_complete()
-inoremap <expr><C-j> pumvisible() ? "\<C-n>" : ""
-inoremap <expr><C-k> pumvisible() ? "\<C-p>" : ""
-inoremap <expr><C-h> deoplete#smart_close_popup()
+" coc "
+set hidden
+inoremap <expr><C-Space> coc#refresh()
+inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr><C-h> pumvisible() ? "\<C-e>" : "\<C-h>"
 autocmd CompleteDone * pclose
 
-let g:deoplete#sources#clang#libclang_path = "/usr/lib/libclang.so"
-let g:deoplete#sources#clang#clang_header = "/usr/lib/clang"
-let g:deoplete#sources#clang#flags = ['-Iinclude']
-
-let g:deoplete#sources#rust#racer_binary='/home/mono/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/home/mono/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
+autocmd Filetype rust nmap <silent> gd <Plug>(coc-definition)
 
 " Allow local customizations in ~/.config/nvim/local.vim
 let $LOCALFILE=expand("~/.config/nvim/local.vim")
