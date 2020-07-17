@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[spanish]{babel}
+% \usepackage{microtype}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{cleveref}
+\usepackage{enumitem}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+
+\title{TODO TITLE}
+\author{Manuel Ruiz López}
+
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+    
+\end{document}

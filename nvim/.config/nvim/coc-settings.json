@@ -1,0 +1,7 @@
+{
+    "signature.target": "echo",
+    "coc.preferences.diagnostic.enable": true,
+    "coc.preferences.autoTrigger": "none",
+    "coc.preferences.formatOnSaveFiletypes": ["rust", "python"],
+    "python.formatting.provider": "yapf"
+}

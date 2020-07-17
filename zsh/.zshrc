@@ -13,7 +13,6 @@ HISTSIZE=1000
 SAVEHIST=1000
 
 # Export
-export TERM="xterm-256color"
 export EDITOR="nvim"
 
 # Alias

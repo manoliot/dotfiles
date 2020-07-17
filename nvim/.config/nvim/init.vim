@@ -1,8 +1,8 @@
 " Vim Plug "
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin()
@@ -30,22 +30,19 @@ Plug 'tpope/vim-dispatch'
 Plug 'junegunn/fzf.vim'
 
 " Language support"
+Plug 'sheerun/vim-polyglot'
 Plug 'lervag/vimtex'
-Plug 'rust-lang/rust.vim'
-Plug 'posva/vim-vue'
 
 " Snippets "
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-" Linting "
-Plug 'w0rp/ale'
-
-" Autocomplete "
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-
 " Goyo "
 Plug 'junegunn/goyo.vim'
+
+" coc "
+" TODO ONLY LOADS WITH CERTAIN FILES
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
@@ -57,18 +54,25 @@ set softtabstop=4
 set shiftwidth=4
 set noexpandtab
 
+autocmd Filetype asm setlocal ts=4 sts=4 sw=4 noexpandtab
+autocmd Filetype c setlocal ts=4 sts=4 sw=4 noexpandtab
+
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
 autocmd Filetype rust setlocal ts=4 sts=4 sw=4 expandtab
-autocmd Filetype r setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype rmd setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype tex setlocal ts=4 sts=4 sw=4 expandtab
 autocmd Filetype tex setlocal spelllang=es_es spell
+
+autocmd Filetype r setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype rmd setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype html setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype css setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype typescript setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype vue setlocal ts=2 sts=2 sw=2 expandtab
+
+" Templates "
+autocmd BufNewFile *.tex -r ~/.config/nvim/templates/tex.skeleton
 
 " Line numbering "
 set number
@@ -96,7 +100,7 @@ set noswapfile
 " Theme "
 syntax enable
 if has("termguicolors")
-	set termguicolors
+    set termguicolors
 endif
 
 set background=dark
@@ -126,33 +130,15 @@ let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 autocmd FileType rust compiler cargo
 autocmd FileType rust let b:dispatch = 'cargo run'
 
-" Rust "
-let g:rustfmt_autosave = 1
-
-" Ale "
-let g:ale_linters = {
-\	'cpp': ['clang', 'gcc'],
-\	'python': ['flake8'],
-\	'rust': ['rls'],
-\	'javascript': ['eslint'],
-\	'typescript': ['tsserver'],
-\	'vue': ['eslint'],
-\}
-
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-\	'rust': ['rustfmt'],
-\	'javascript': ['eslint'],
-\	'vue': ['eslint'],
-\}
-
-
-let g:ale_cpp_clang_options = '-std=c++11 -Wall -Iinclude'
-let g:ale_cpp_gcc_options = '-std=c++11 -Wall -Iinclude'
-let g:ale_python_flake8_auto_pipenv = 1
-let g:ale_rust_rls_toolchain = 'stable'
-
 " coc "
+let g:coc_global_extensions = [
+    \ "coc-texlab",
+    \ "coc-clangd",
+    \ "coc-rls",
+    \ "coc-python",
+    \ "coc-vetur"
+\ ]
+
 set hidden
 inoremap <expr><C-Space> coc#refresh()
 inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
@@ -160,7 +146,24 @@ inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr><C-h> pumvisible() ? "\<C-e>" : "\<C-h>"
 autocmd CompleteDone * pclose
 
-autocmd Filetype rust nmap <silent> gd <Plug>(coc-definition)
+let mapleader=" "
+
+" Use `lp` and `ln` for navigate diagnostics
+nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> <leader>ld <Plug>(coc-definition)
+nmap <silent> <leader>lt <Plug>(coc-type-definition)
+nmap <silent> <leader>li <Plug>(coc-implementation)
+nmap <silent> <leader>lf <Plug>(coc-references)
+
+" Remap for rename current word
+nmap <leader>lr <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
 " Allow local customizations in ~/.config/nvim/local.vim
 let $LOCALFILE=expand("~/.config/nvim/local.vim")
